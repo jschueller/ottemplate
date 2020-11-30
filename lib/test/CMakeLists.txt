@@ -3,10 +3,6 @@ set (REPLACE_EOL " | cat ")
 if (WIN32)
   # replace dos eols
   set (REPLACE_EOL " | tr -d '\\\\015' ")
-
-  if (MINGW AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-    add_library (CRT_fp8 STATIC CRT_fp8.c)
-  endif ()
 endif ()
 
 set (CHECK_ENVIRONMENT)
@@ -19,9 +15,6 @@ macro ( ot_check_test TESTNAME )
   add_executable ( ${TESTNAME_TGT} EXCLUDE_FROM_ALL ${TESTNAME_SRCS} )
   add_dependencies ( tests ${TESTNAME_TGT} )
   target_link_libraries ( ${TESTNAME_TGT} ottemplate )
-  if (MINGW AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-    target_link_libraries (${TESTNAME_TGT} CRT_fp8)
-  endif ()
   set_target_properties ( ${TESTNAME_TGT} PROPERTIES
                                           UNITY_BUILD OFF
                                           INSTALL_RPATH "${CMAKE_BINARY_DIR}/lib/src;${CMAKE_INSTALL_RPATH}" )
